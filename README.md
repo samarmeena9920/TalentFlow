@@ -4,7 +4,7 @@ A comprehensive React-based hiring platform that enables HR teams to manage jobs
 
 ## 🚀 Live Demo
 
-**Deployed App**: [View Live Demo](https://lovable.dev/projects/80f1972a-7ddf-4099-9bee-7a931db896be)
+**Deployed App**: [View Live Demo](https://talentflow-1-m02p.onrender.com)
 
 **GitHub Repository**: This repository
 
@@ -122,7 +122,7 @@ On the first load, the app will:
 1. Initialize the MSW service worker
 2. Create IndexedDB tables
 3. Seed the database with:
-   - 25 jobs (mix of active and archived)
+   - 80 jobs (mix of active and archived)
    - 1000 candidates across various stages
    - 3 pre-built assessments with 10+ questions each
 
@@ -253,8 +253,8 @@ This ensures consistency and makes theme changes trivial.
 
 ## 🚀 Deployment
 
-The app is deployed on Lovable's platform:
-- **Production URL**: [https://lovable.dev/projects/80f1972a-7ddf-4099-9bee-7a931db896be](https://lovable.dev/projects/80f1972a-7ddf-4099-9bee-7a931db896be)
+The app is deployed on Render platform:
+- **Production URL**: (https://talentflow-1-m02p.onrender.com/)
 - **Auto-deploy**: Enabled on main branch
 - **Environment**: Static hosting with service worker support
 
