@@ -1,9 +1,21 @@
 import { useState } from 'react';
-import { Search } from 'lucide-react';
+import { Search, Plus } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import type { Candidate } from '@/lib/types';
 import { mockCandidates } from '@/lib/types';
 import { CandidateTable } from '@/components/ui/candidate-table';
+import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+  DialogTrigger,
+  DialogClose,
+} from '@/components/ui/dialog';
+import { useToast } from '@/hooks/use-toast';
 import {
   Select,
   SelectContent,
@@ -13,13 +25,26 @@ import {
 } from '@/components/ui/select';
 
 export default function Candidates() {
-  const [candidates] = useState<Candidate[]>(mockCandidates);
+  const [candidates, setCandidates] = useState<Candidate[]>(mockCandidates);
   const [search, setSearch] = useState('');
   const [typeFilter, setTypeFilter] = useState<string>('all');
+  const [statusFilter, setStatusFilter] = useState<string>('all');
+  const { toast } = useToast();
+
+  // dialog state for adding candidate
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [companyName, setCompanyName] = useState('');
+  const [position, setPosition] = useState('');
+  const [employmentType, setEmploymentType] = useState<string>('FULLTIME');
+  const [status, setStatus] = useState<string>('Pending');
+  const [hasContact, setHasContact] = useState(true);
+  const [hasEmail, setHasEmail] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
 
   // Client-side search and type filter
   const filteredCandidates = candidates.filter(candidate => {
-    if (!search && typeFilter === 'all') return true;
+    // if no filters or search applied, return everything
+    if (!search && typeFilter === 'all' && statusFilter === 'all') return true;
     
     const matchesSearch = !search || 
       candidate.id.toLowerCase().includes(search.toLowerCase()) ||
@@ -27,18 +52,151 @@ export default function Candidates() {
       candidate.position.toLowerCase().includes(search.toLowerCase());
       
     const matchesType = typeFilter === 'all' || candidate.type === typeFilter;
-    
-    return matchesSearch && matchesType;
+    const matchesStatus = statusFilter === 'all' || candidate.status === statusFilter;
+
+    return matchesSearch && matchesType && matchesStatus;
   });
+
+  const handleCreateCandidate = async (e?: React.FormEvent) => {
+    e?.preventDefault();
+
+    if (!companyName.trim() || !position.trim()) {
+      toast({ title: 'Validation', description: 'Company and position are required', variant: 'destructive' });
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      const id = `#APL-${Math.floor(1000 + Math.random() * 9000)}`;
+      const dateApplied = new Date().toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+
+      const newCandidate: Candidate = {
+        id,
+        dateApplied,
+        company: {
+          name: companyName,
+          department: undefined,
+          logo: '/companies/default.png',
+        },
+        type: employmentType as any,
+        position,
+        status: status as any,
+        hasContact,
+        hasEmail,
+      };
+
+      // Optimistically update UI
+      setCandidates((prev) => [newCandidate, ...prev]);
+
+      // Try to POST to API (if mock API present)
+      try {
+        await fetch('/api/candidates', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(newCandidate),
+        });
+      } catch (err) {
+        // ignore network errors for now; UI already updated
+      }
+
+      setDialogOpen(false);
+      setCompanyName('');
+      setPosition('');
+      setEmploymentType('FULLTIME');
+      setStatus('Pending');
+      setHasContact(true);
+      setHasEmail(true);
+
+      toast({ title: 'Success', description: 'Candidate added' });
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <div className="h-full flex flex-col">
       <div className="border-b border-border bg-card">
-        <div className="px-8 py-6">
-          <h1 className="text-3xl font-bold">Candidates</h1>
-          <p className="text-muted-foreground mt-1">
-            {filteredCandidates.length} candidates
-          </p>
+        <div className="flex items-center justify-between px-8 py-6">
+          <div>
+            <h1 className="text-3xl font-bold">Candidates</h1>
+            <p className="text-muted-foreground mt-1">
+              {filteredCandidates.length} candidates
+            </p>
+          </div>
+
+          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+            <DialogTrigger asChild>
+              <Button className="gap-2">
+                <Plus className="h-4 w-4" />
+                Add Candidate
+              </Button>
+            </DialogTrigger>
+
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Add Candidate</DialogTitle>
+                <DialogDescription>Enter candidate details to add to the list.</DialogDescription>
+              </DialogHeader>
+
+              <form className="mt-4 space-y-4" onSubmit={(e) => handleCreateCandidate(e)}>
+                <div>
+                  <label className="block text-sm font-medium mb-1">Company</label>
+                  <Input value={companyName} onChange={(e) => setCompanyName(e.target.value)} placeholder="Company name" />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-1">Position</label>
+                  <Input value={position} onChange={(e) => setPosition(e.target.value)} placeholder="Position / title" />
+                </div>
+
+                <div className="flex gap-2">
+                  <div>
+                    <label className="block text-sm font-medium mb-1">Type</label>
+                    <Select value={employmentType} onValueChange={setEmploymentType}>
+                      <SelectTrigger className="w-[160px]"><SelectValue /></SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="FULLTIME">Full Time</SelectItem>
+                        <SelectItem value="PART TIME">Part Time</SelectItem>
+                        <SelectItem value="FREELANCE">Freelance</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium mb-1">Status</label>
+                    <Select value={status} onValueChange={setStatus}>
+                      <SelectTrigger className="w-[160px]"><SelectValue /></SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Pending">Pending</SelectItem>
+                        <SelectItem value="On-Hold">On-Hold</SelectItem>
+                        <SelectItem value="Candidate">Candidate</SelectItem>
+                        <SelectItem value="Hired">Hired</SelectItem>
+                        <SelectItem value="Rejected">Rejected</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-4">
+                  <label className="inline-flex items-center gap-2">
+                    <input type="checkbox" checked={hasContact} onChange={(e) => setHasContact(e.target.checked)} />
+                    <span className="text-sm">Has Contact</span>
+                  </label>
+                  <label className="inline-flex items-center gap-2">
+                    <input type="checkbox" checked={hasEmail} onChange={(e) => setHasEmail(e.target.checked)} />
+                    <span className="text-sm">Has Email</span>
+                  </label>
+                </div>
+
+                <DialogFooter>
+                  <DialogClose asChild>
+                    <Button variant="outline" type="button" onClick={() => setDialogOpen(false)}>Cancel</Button>
+                  </DialogClose>
+                  <Button type="submit" disabled={submitting}>{submitting ? 'Adding...' : 'Add Candidate'}</Button>
+                </DialogFooter>
+              </form>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
 
@@ -53,20 +211,33 @@ export default function Candidates() {
             className="pl-10"
           />
         </div>
-        <Select value={typeFilter} onValueChange={setTypeFilter}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Filter by type" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Types</SelectItem>
-            <SelectItem value="FULLTIME">Full Time</SelectItem>
-            <SelectItem value="PART TIME">Part Time</SelectItem>
-            <SelectItem value="FREELANCE">Freelance</SelectItem>
-            <SelectItem value="offer">Offer</SelectItem>
-            <SelectItem value="hired">Hired</SelectItem>
-            <SelectItem value="rejected">Rejected</SelectItem>
-          </SelectContent>
-        </Select>
+        <div className="flex gap-4">
+          <Select value={typeFilter} onValueChange={setTypeFilter}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Filter by type" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Types</SelectItem>
+              <SelectItem value="FULLTIME">Full Time</SelectItem>
+              <SelectItem value="PART TIME">Part Time</SelectItem>
+              <SelectItem value="FREELANCE">Freelance</SelectItem>
+            </SelectContent>
+          </Select>
+
+          <Select value={statusFilter} onValueChange={setStatusFilter}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="All Statuses" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Statuses</SelectItem>
+              <SelectItem value="Pending">Pending</SelectItem>
+              <SelectItem value="On-Hold">On-Hold</SelectItem>
+              <SelectItem value="Candidate">Candidate</SelectItem>
+              <SelectItem value="Hired">Hired</SelectItem>
+              <SelectItem value="Rejected">Rejected</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
       </div>
 
       {/* Table */}

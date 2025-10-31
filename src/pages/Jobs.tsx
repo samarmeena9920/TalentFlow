@@ -4,6 +4,16 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+  DialogTrigger,
+  DialogClose,
+} from '@/components/ui/dialog';
 import { Job, JobStatus } from '@/lib/db';
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
 import {
@@ -23,6 +33,11 @@ export default function Jobs() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const { toast } = useToast();
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [newTitle, setNewTitle] = useState('');
+  const [newTags, setNewTags] = useState('');
+  const [newStatus, setNewStatus] = useState<JobStatus>('active');
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     fetchJobs();
@@ -53,6 +68,57 @@ export default function Jobs() {
       });
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleCreateJob = async (e?: React.FormEvent) => {
+    e?.preventDefault();
+
+    if (!newTitle.trim()) {
+      toast({ title: 'Validation', description: 'Title is required', variant: 'destructive' });
+      return;
+    }
+
+    const id = `job-${Date.now()}`;
+    const slug = newTitle.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+    const tags = newTags
+      .split(',')
+      .map((t) => t.trim())
+      .filter(Boolean);
+
+    const job: Job = {
+      id,
+      title: newTitle,
+      slug,
+      status: newStatus,
+      tags,
+      order: jobs.length,
+      description: '',
+      createdAt: new Date().toISOString(),
+    };
+
+    setSubmitting(true);
+    try {
+      const res = await fetch('/api/jobs', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(job),
+      });
+
+      if (!res.ok) throw new Error('Failed to create job');
+
+      setDialogOpen(false);
+      setNewTitle('');
+      setNewTags('');
+      setNewStatus('active');
+      // Refresh list
+      fetchJobs();
+
+      toast({ title: 'Success', description: 'Job created' });
+    } catch (err) {
+      toast({ title: 'Error', description: 'Failed to create job', variant: 'destructive' });
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -131,10 +197,53 @@ export default function Jobs() {
             <h1 className="text-3xl font-bold">Jobs</h1>
             <p className="text-muted-foreground mt-1">Manage job postings and openings</p>
           </div>
-          <Button className="gap-2">
-            <Plus className="h-4 w-4" />
-            Create Job
-          </Button>
+          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+            <DialogTrigger asChild>
+              <Button className="gap-2">
+                <Plus className="h-4 w-4" />
+                Create Job
+              </Button>
+            </DialogTrigger>
+
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Create Job</DialogTitle>
+                <DialogDescription>Fill in job details and click Create.</DialogDescription>
+              </DialogHeader>
+
+              <form className="mt-4 space-y-4" onSubmit={(e) => handleCreateJob(e)}>
+                <div>
+                  <label className="block text-sm font-medium mb-1">Title</label>
+                  <Input value={newTitle} onChange={(e) => setNewTitle(e.target.value)} placeholder="Senior Frontend Engineer" />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-1">Tags (comma separated)</label>
+                  <Input value={newTags} onChange={(e) => setNewTags(e.target.value)} placeholder="React, TypeScript, Remote" />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-1">Status</label>
+                  <Select value={newStatus} onValueChange={(val) => setNewStatus(val as JobStatus)}>
+                    <SelectTrigger className="w-[160px]">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="active">active</SelectItem>
+                      <SelectItem value="archived">archived</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <DialogFooter>
+                  <DialogClose asChild>
+                    <Button variant="outline" type="button" onClick={() => setDialogOpen(false)}>Cancel</Button>
+                  </DialogClose>
+                  <Button type="submit" disabled={submitting}>{submitting ? 'Creating...' : 'Create'}</Button>
+                </DialogFooter>
+              </form>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
 
