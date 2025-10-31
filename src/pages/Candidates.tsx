@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Search, Plus } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import type { Candidate } from '@/lib/types';
@@ -36,26 +36,25 @@ export default function Candidates() {
   const [companyName, setCompanyName] = useState('');
   const [position, setPosition] = useState('');
   const [employmentType, setEmploymentType] = useState<string>('FULLTIME');
-  const [status, setStatus] = useState<string>('Pending');
+  const [status, setStatus] = useState<string>('Applied');
   const [hasContact, setHasContact] = useState(true);
   const [hasEmail, setHasEmail] = useState(true);
   const [submitting, setSubmitting] = useState(false);
 
   // Client-side search and type filter
-  const filteredCandidates = candidates.filter(candidate => {
-    // if no filters or search applied, return everything
-    if (!search && typeFilter === 'all' && statusFilter === 'all') return true;
-    
-    const matchesSearch = !search || 
-      candidate.id.toLowerCase().includes(search.toLowerCase()) ||
-      candidate.company.name.toLowerCase().includes(search.toLowerCase()) ||
-      candidate.position.toLowerCase().includes(search.toLowerCase());
-      
-    const matchesType = typeFilter === 'all' || candidate.type === typeFilter;
-    const matchesStatus = statusFilter === 'all' || candidate.status === statusFilter;
+  const filteredCandidates = useMemo(() => {
+    return candidates.filter(candidate => {
+      const matchesSearch = !search || 
+        candidate.id.toLowerCase().includes(search.toLowerCase()) ||
+        candidate.company.name.toLowerCase().includes(search.toLowerCase()) ||
+        candidate.position.toLowerCase().includes(search.toLowerCase());
+        
+      const matchesType = typeFilter === 'all' || candidate.type === typeFilter;
+      const matchesStatus = statusFilter === 'all' || candidate.status === statusFilter;
 
-    return matchesSearch && matchesType && matchesStatus;
-  });
+      return matchesSearch && matchesType && matchesStatus;
+    });
+  }, [candidates, search, typeFilter, statusFilter]);
 
   const handleCreateCandidate = async (e?: React.FormEvent) => {
     e?.preventDefault();
@@ -103,7 +102,7 @@ export default function Candidates() {
       setCompanyName('');
       setPosition('');
       setEmploymentType('FULLTIME');
-      setStatus('Pending');
+      setStatus('Applied');
       setHasContact(true);
       setHasEmail(true);
 
@@ -167,9 +166,10 @@ export default function Candidates() {
                     <Select value={status} onValueChange={setStatus}>
                       <SelectTrigger className="w-[160px]"><SelectValue /></SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="Pending">Pending</SelectItem>
-                        <SelectItem value="On-Hold">On-Hold</SelectItem>
-                        <SelectItem value="Candidate">Candidate</SelectItem>
+                        <SelectItem value="Applied">Applied</SelectItem>
+                        <SelectItem value="Screening">Screening</SelectItem>
+                        <SelectItem value="Technical">Technical</SelectItem>
+                        <SelectItem value="Offer">Offer</SelectItem>
                         <SelectItem value="Hired">Hired</SelectItem>
                         <SelectItem value="Rejected">Rejected</SelectItem>
                       </SelectContent>
@@ -214,7 +214,7 @@ export default function Candidates() {
         <div className="flex gap-4">
           <Select value={typeFilter} onValueChange={setTypeFilter}>
             <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Filter by type" />
+              <SelectValue placeholder="All Types" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All Types</SelectItem>
@@ -230,9 +230,10 @@ export default function Candidates() {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All Statuses</SelectItem>
-              <SelectItem value="Pending">Pending</SelectItem>
-              <SelectItem value="On-Hold">On-Hold</SelectItem>
-              <SelectItem value="Candidate">Candidate</SelectItem>
+              <SelectItem value="Applied">Applied</SelectItem>
+              <SelectItem value="Screening">Screening</SelectItem>
+              <SelectItem value="Technical">Technical</SelectItem>
+              <SelectItem value="Offer">Offer</SelectItem>
               <SelectItem value="Hired">Hired</SelectItem>
               <SelectItem value="Rejected">Rejected</SelectItem>
             </SelectContent>
@@ -247,7 +248,10 @@ export default function Candidates() {
             No candidates found
           </div>
         ) : (
-          <CandidateTable candidates={filteredCandidates} />
+          <CandidateTable 
+            key={`${typeFilter}-${statusFilter}-${search}`}
+            candidates={filteredCandidates} 
+          />
         )}
       </div>
     </div>

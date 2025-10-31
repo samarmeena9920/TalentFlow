@@ -34,10 +34,16 @@ export default function Jobs() {
   const [totalPages, setTotalPages] = useState(1);
   const { toast } = useToast();
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [editingJob, setEditingJob] = useState<Job | null>(null);
   const [newTitle, setNewTitle] = useState('');
   const [newTags, setNewTags] = useState('');
   const [newStatus, setNewStatus] = useState<JobStatus>('active');
+  const [editTitle, setEditTitle] = useState('');
+  const [editTags, setEditTags] = useState('');
+  const [editStatus, setEditStatus] = useState<JobStatus>('active');
   const [submitting, setSubmitting] = useState(false);
+  const [updating, setUpdating] = useState(false);
 
   useEffect(() => {
     fetchJobs();
@@ -165,6 +171,61 @@ export default function Jobs() {
     }
   };
 
+  const handleEditJob = (job: Job) => {
+    setEditingJob(job);
+    setEditTitle(job.title);
+    setEditTags(job.tags.join(', '));
+    setEditStatus(job.status);
+    setEditDialogOpen(true);
+  };
+
+  const handleUpdateJob = async (e?: React.FormEvent) => {
+    e?.preventDefault();
+
+    if (!editingJob || !editTitle.trim()) {
+      toast({ title: 'Validation', description: 'Title is required', variant: 'destructive' });
+      return;
+    }
+
+    const slug = editTitle.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+    const tags = editTags
+      .split(',')
+      .map((t) => t.trim())
+      .filter(Boolean);
+
+    const updatedJob: Partial<Job> = {
+      title: editTitle,
+      slug,
+      status: editStatus,
+      tags,
+    };
+
+    setUpdating(true);
+    try {
+      const res = await fetch(`/api/jobs/${editingJob.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedJob),
+      });
+
+      if (!res.ok) throw new Error('Failed to update job');
+
+      setEditDialogOpen(false);
+      setEditingJob(null);
+      setEditTitle('');
+      setEditTags('');
+      setEditStatus('active');
+      // Refresh list
+      fetchJobs();
+
+      toast({ title: 'Success', description: 'Job updated' });
+    } catch (err) {
+      toast({ title: 'Error', description: 'Failed to update job', variant: 'destructive' });
+    } finally {
+      setUpdating(false);
+    }
+  };
+
   const toggleArchive = async (job: Job) => {
     const newStatus: JobStatus = job.status === 'active' ? 'archived' : 'active';
     
@@ -240,6 +301,67 @@ export default function Jobs() {
                     <Button variant="outline" type="button" onClick={() => setDialogOpen(false)}>Cancel</Button>
                   </DialogClose>
                   <Button type="submit" disabled={submitting}>{submitting ? 'Creating...' : 'Create'}</Button>
+                </DialogFooter>
+              </form>
+            </DialogContent>
+          </Dialog>
+
+          {/* Edit Job Dialog */}
+          <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Edit Job</DialogTitle>
+                <DialogDescription>Update job details and click Save.</DialogDescription>
+              </DialogHeader>
+
+              <form className="mt-4 space-y-4" onSubmit={(e) => handleUpdateJob(e)}>
+                <div>
+                  <label className="block text-sm font-medium mb-1">Title</label>
+                  <Input 
+                    value={editTitle} 
+                    onChange={(e) => setEditTitle(e.target.value)} 
+                    placeholder="Senior Frontend Engineer" 
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-1">Tags (comma separated)</label>
+                  <Input 
+                    value={editTags} 
+                    onChange={(e) => setEditTags(e.target.value)} 
+                    placeholder="React, TypeScript, Remote" 
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-1">Status</label>
+                  <Select value={editStatus} onValueChange={(val) => setEditStatus(val as JobStatus)}>
+                    <SelectTrigger className="w-[160px]">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="active">active</SelectItem>
+                      <SelectItem value="archived">archived</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <DialogFooter>
+                  <DialogClose asChild>
+                    <Button 
+                      variant="outline" 
+                      type="button" 
+                      onClick={() => {
+                        setEditDialogOpen(false);
+                        setEditingJob(null);
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                  </DialogClose>
+                  <Button type="submit" disabled={updating}>
+                    {updating ? 'Updating...' : 'Save Changes'}
+                  </Button>
                 </DialogFooter>
               </form>
             </DialogContent>
@@ -320,7 +442,11 @@ export default function Jobs() {
                             </div>
 
                             <div className="flex gap-2">
-                              <Button variant="ghost" size="sm">
+                              <Button 
+                                variant="ghost" 
+                                size="sm"
+                                onClick={() => handleEditJob(job)}
+                              >
                                 <Edit className="h-4 w-4" />
                               </Button>
                               <Button

@@ -1,6 +1,6 @@
 import { type } from "os";
 
-export type CandidateStatus = 'Pending' | 'On-Hold' | 'Candidate' | 'Hired' | 'Rejected';
+export type CandidateStatus = 'Applied' | 'Screening' | 'Technical' | 'Offer' | 'Hired' | 'Rejected';
 export type EmploymentType = 'FULLTIME' | 'PART TIME' | 'FREELANCE';
 
 export interface Company {
@@ -22,6 +22,48 @@ export interface Candidate {
 
 export const mockCandidates: Candidate[] = [
   {
+    id: '#APL-0018',
+    dateApplied: 'Oct 18, 2025, 02:00 PM',
+    company: {
+      name: 'Quantum Systems',
+      department: 'Engineering',
+      logo: '/companies/quantum.png'
+    },
+    type: 'FULLTIME',
+    position: 'Full Stack Developer',
+    status: 'Technical',
+    hasContact: true,
+    hasEmail: true
+  },
+  {
+    id: '#APL-0017',
+    dateApplied: 'Oct 17, 2025, 11:30 AM',
+    company: {
+      name: 'Enterprise Solutions',
+      department: 'Backend Development',
+      logo: '/companies/enterprise.png'
+    },
+    type: 'FULLTIME',
+    position: 'Backend Engineer',
+    status: 'Technical',
+    hasContact: true,
+    hasEmail: true
+  },
+  {
+    id: '#APL-0016',
+    dateApplied: 'Oct 16, 2025, 03:45 PM',
+    company: {
+      name: 'Global Tech Corp',
+      department: 'Product',
+      logo: '/companies/globaltech.png'
+    },
+    type: 'FULLTIME',
+    position: 'Senior Product Manager',
+    status: 'Offer',
+    hasContact: true,
+    hasEmail: true
+  },
+  {
     id: '#APL-0015',
     dateApplied: 'Oct 15, 2025, 09:30 AM',
     company: {
@@ -31,7 +73,21 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'FULLTIME',
     position: 'Senior Software Engineer',
-    status: 'Candidate',
+    status: 'Screening',
+    hasContact: true,
+    hasEmail: true
+  },
+  {
+    id: '#APL-0019',
+    dateApplied: 'Oct 19, 2025, 10:20 AM',
+    company: {
+      name: 'StartupX',
+      department: 'Engineering',
+      logo: '/companies/startupx.png'
+    },
+    type: 'FULLTIME',
+    position: 'Frontend Developer',
+    status: 'Offer',
     hasContact: true,
     hasEmail: true
   },
@@ -45,7 +101,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'FULLTIME',
     position: 'Product Manager',
-    status: 'Pending',
+    status: 'Applied',
     hasContact: true,
     hasEmail: true
   },
@@ -59,7 +115,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'FREELANCE',
     position: 'DevOps Engineer',
-    status: 'Candidate',
+    status: 'Screening',
     hasContact: true,
     hasEmail: true
   },
@@ -73,7 +129,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'PART TIME',
     position: 'Mobile App Developer',
-    status: 'On-Hold',
+    status: 'Screening',
     hasContact: false,
     hasEmail: true
   },
@@ -87,7 +143,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'FULLTIME',
     position: 'Data Scientist',
-    status: 'Pending',
+    status: 'Applied',
     hasContact: true,
     hasEmail: true
   },
@@ -101,7 +157,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'FREELANCE',
     position: 'Senior UI/UX Designer',
-    status: 'Candidate',
+    status: 'Screening',
     hasContact: true,
     hasEmail: true
   },
@@ -115,7 +171,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'FULLTIME',
     position: 'Security Engineer',
-    status: 'Pending',
+    status: 'Applied',
     hasContact: true,
     hasEmail: true
   },
@@ -129,7 +185,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'PART TIME',
     position: 'Scrum Master',
-    status: 'On-Hold',
+    status: 'Screening',
     hasContact: true,
     hasEmail: false
   },
@@ -143,7 +199,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'FREELANCE',
     position: 'Content Strategist',
-    status: 'Candidate',
+    status: 'Screening',
     hasContact: true,
     hasEmail: true
   },
@@ -157,7 +213,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'FULLTIME',
     position: 'ML Engineer',
-    status: 'Pending',
+    status: 'Applied',
     hasContact: true,
     hasEmail: true
   },
@@ -171,7 +227,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'PART TIME',
     position: 'Digital Marketing Specialist',
-    status: 'Candidate',
+    status: 'Screening',
     hasContact: true,
     hasEmail: true
   },
@@ -185,7 +241,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'FREELANCE',
     position: 'Blockchain Developer',
-    status: 'On-Hold',
+    status: 'Screening',
     hasContact: true,
     hasEmail: true
   },
@@ -199,7 +255,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'FULLTIME',
     position: 'Quantum Computing Researcher',
-    status: 'Candidate',
+    status: 'Screening',
     hasContact: true,
     hasEmail: true
   },
@@ -213,7 +269,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'FULLTIME',
     position: 'Sustainability Engineer',
-    status: 'Pending',
+    status: 'Applied',
     hasContact: true,
     hasEmail: true
   },
@@ -227,7 +283,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'PART TIME',
     position: 'Bioinformatics Analyst',
-    status: 'Candidate',
+    status: 'Screening',
     hasContact: true,
     hasEmail: true
   },
@@ -241,7 +297,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'FULLTIME',
     position: 'Robotics Engineer',
-    status: 'Pending',
+    status: 'Applied',
     hasContact: true,
     hasEmail: true
   },
@@ -255,7 +311,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'FREELANCE',
     position: 'VR Experience Designer',
-    status: 'On-Hold',
+    status: 'Screening',
     hasContact: true,
     hasEmail: false
   },
@@ -269,7 +325,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'FULLTIME',
     position: 'Network Security Architect',
-    status: 'Candidate',
+    status: 'Screening',
     hasContact: true,
     hasEmail: true
   },
@@ -283,7 +339,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'PART TIME',
     position: 'Cloud Solutions Architect',
-    status: 'Pending',
+    status: 'Applied',
     hasContact: true,
     hasEmail: true
   },
@@ -297,7 +353,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'FREELANCE',
     position: 'Data Visualization Expert',
-    status: 'Candidate',
+    status: 'Screening',
     hasContact: true,
     hasEmail: true
   },
@@ -311,7 +367,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'FULLTIME',
     position: 'IoT Solutions Developer',
-    status: 'On-Hold',
+    status: 'Screening',
     hasContact: true,
     hasEmail: true
   },
@@ -325,7 +381,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'PART TIME',
     position: 'Financial Systems Analyst',
-    status: 'Pending',
+    status: 'Applied',
     hasContact: true,
     hasEmail: true
   },
@@ -479,7 +535,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'FULLTIME',
     position: 'Deep Learning Engineer',
-    status: 'Pending',
+    status: 'Applied',
     hasContact: true,
     hasEmail: true
   },
@@ -493,7 +549,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'FULLTIME',
     position: 'Quantum Algorithm Developer',
-    status: 'Candidate',
+    status: 'Screening',
     hasContact: true,
     hasEmail: true
   },
@@ -521,7 +577,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'FULLTIME',
     position: 'Aerospace Software Engineer',
-    status: 'On-Hold',
+    status: 'Screening',
     hasContact: true,
     hasEmail: true
   },
@@ -549,7 +605,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'FULLTIME',
     position: 'Edge AI Developer',
-    status: 'Candidate',
+    status: 'Screening',
     hasContact: true,
     hasEmail: true
   },
@@ -577,7 +633,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'PART TIME',
     position: 'IoT Systems Analyst',
-    status: 'Pending',
+    status: 'Applied',
     hasContact: true,
     hasEmail: true
   },
@@ -591,7 +647,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'FULLTIME',
     position: 'Robotics Control Engineer',
-    status: 'On-Hold',
+    status: 'Screening',
     hasContact: true,
     hasEmail: true
   },
@@ -605,7 +661,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'FREELANCE',
     position: 'Blockchain Architect',
-    status: 'Candidate',
+    status: 'Screening',
     hasContact: true,
     hasEmail: true
   },
@@ -647,7 +703,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'FULLTIME',
     position: 'Cloud Infrastructure Engineer',
-    status: 'Pending',
+    status: 'Applied',
     hasContact: true,
     hasEmail: true
   },
@@ -661,7 +717,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'FULLTIME',
     position: 'Neural Network Researcher',
-    status: 'Candidate',
+    status: 'Screening',
     hasContact: true,
     hasEmail: true
   },
@@ -675,7 +731,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'FREELANCE',
     position: 'Quantum Cryptography Specialist',
-    status: 'On-Hold',
+    status: 'Screening',
     hasContact: true,
     hasEmail: true
   },
@@ -703,7 +759,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'FULLTIME',
     position: 'Industrial IoT Engineer',
-    status: 'Pending',
+    status: 'Applied',
     hasContact: true,
     hasEmail: true
   },
@@ -717,7 +773,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'PART TIME',
     position: 'Digital Twin Developer',
-    status: 'Candidate',
+    status: 'Screening',
     hasContact: true,
     hasEmail: true
   },
@@ -745,7 +801,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'FREELANCE',
     position: 'Speech AI Engineer',
-    status: 'On-Hold',
+    status: 'Screening',
     hasContact: true,
     hasEmail: true
   },
@@ -773,7 +829,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'FULLTIME',
     position: 'MLOps Engineer',
-    status: 'Candidate',
+    status: 'Screening',
     hasContact: true,
     hasEmail: true
   },
@@ -787,7 +843,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'PART TIME',
     position: 'Smart Grid Developer',
-    status: 'Pending',
+    status: 'Applied',
     hasContact: true,
     hasEmail: true
   },
@@ -801,7 +857,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'FREELANCE',
     position: 'Quantum Game Developer',
-    status: 'On-Hold',
+    status: 'Screening',
     hasContact: true,
     hasEmail: true
   },
@@ -829,7 +885,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'FULLTIME',
     position: 'Holographic Engineer',
-    status: 'Candidate',
+    status: 'Screening',
     hasContact: true,
     hasEmail: true
   },
@@ -857,7 +913,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'FREELANCE',
     position: 'Drone Systems Engineer',
-    status: 'Pending',
+    status: 'Applied',
     hasContact: true,
     hasEmail: true
   },
@@ -871,7 +927,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'FULLTIME',
     position: 'Quantum Materials Researcher',
-    status: 'On-Hold',
+    status: 'Screening',
     hasContact: true,
     hasEmail: true
   },
@@ -899,7 +955,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'PART TIME',
     position: 'Embedded Systems Engineer',
-    status: 'Candidate',
+    status: 'Screening',
     hasContact: true,
     hasEmail: true
   },
@@ -913,7 +969,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'FULLTIME',
     position: 'Quantum Network Engineer',
-    status: 'Pending',
+    status: 'Applied',
     hasContact: true,
     hasEmail: true
   },
@@ -955,7 +1011,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'FULLTIME',
     position: 'Space Habitat Systems Engineer',
-    status: 'On-Hold',
+    status: 'Screening',
     hasContact: true,
     hasEmail: true
   },
@@ -969,7 +1025,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'PART TIME',
     position: 'DNA Computing Researcher',
-    status: 'Candidate',
+    status: 'Screening',
     hasContact: true,
     hasEmail: true
   },
@@ -983,7 +1039,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'FREELANCE',
     position: 'Quantum Sensor Developer',
-    status: 'Pending',
+    status: 'Applied',
     hasContact: true,
     hasEmail: true
   },
@@ -1025,7 +1081,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'PART TIME',
     position: 'Climate Model Developer',
-    status: 'On-Hold',
+    status: 'Screening',
     hasContact: true,
     hasEmail: true
   },
@@ -1039,7 +1095,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'FREELANCE',
     position: 'Intern UI Designer',
-    status: 'Pending',
+    status: 'Applied',
     hasContact: true,
     hasEmail: true
   },
@@ -1053,7 +1109,7 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'PART TIME',
     position: 'Junior UI Designer',
-    status: 'On-Hold',
+    status: 'Screening',
     hasContact: true,
     hasEmail: false
   },
@@ -1067,8 +1123,695 @@ export const mockCandidates: Candidate[] = [
     },
     type: 'FULLTIME',
     position: 'Senior UX Designer',
-    status: 'Candidate',
+    status: 'Screening',
     hasContact: true,
     hasEmail: true
+  },
+  // Additional candidates to reach 100+ with all statuses and types
+  {
+    id: '#APL-0100',
+    dateApplied: 'Oct 20, 2025, 09:00 AM',
+    company: {
+      name: 'DataFlow Analytics',
+      department: 'Data Engineering',
+      logo: '/companies/dataflow.png'
+    },
+    type: 'FULLTIME',
+    position: 'Data Engineer',
+    status: 'Applied',
+    hasContact: true,
+    hasEmail: true
+  },
+  {
+    id: '#APL-0099',
+    dateApplied: 'Oct 20, 2025, 10:15 AM',
+    company: {
+      name: 'CloudBridge Inc',
+      department: 'Cloud Infrastructure',
+      logo: '/companies/cloudbridge.png'
+    },
+    type: 'PART TIME',
+    position: 'Cloud Architect',
+    status: 'Screening',
+    hasContact: false,
+    hasEmail: true
+  },
+  {
+    id: '#APL-0098',
+    dateApplied: 'Oct 20, 2025, 11:30 AM',
+    company: {
+      name: 'AI Solutions Pro',
+      department: 'AI Research',
+      logo: '/companies/aisolutions.png'
+    },
+    type: 'FREELANCE',
+    position: 'Machine Learning Engineer',
+    status: 'Technical',
+    hasContact: true,
+    hasEmail: true
+  },
+  {
+    id: '#APL-0097',
+    dateApplied: 'Oct 20, 2025, 12:45 PM',
+    company: {
+      name: 'FinTech Innovations',
+      department: 'Finance',
+      logo: '/companies/fintech.png'
+    },
+    type: 'FULLTIME',
+    position: 'Financial Analyst',
+    status: 'Offer',
+    hasContact: true,
+    hasEmail: true
+  },
+  {
+    id: '#APL-0096',
+    dateApplied: 'Oct 19, 2025, 02:00 PM',
+    company: {
+      name: 'GreenTech Energy',
+      department: 'Sustainability',
+      logo: '/companies/greentech.png'
+    },
+    type: 'FULLTIME',
+    position: 'Sustainability Engineer',
+    status: 'Hired',
+    hasContact: true,
+    hasEmail: true
+  },
+  {
+    id: '#APL-0095',
+    dateApplied: 'Oct 19, 2025, 03:15 PM',
+    company: {
+      name: 'MedTech Solutions',
+      department: 'Healthcare',
+      logo: '/companies/medtech.png'
+    },
+    type: 'PART TIME',
+    position: 'Healthcare Developer',
+    status: 'Rejected',
+    hasContact: true,
+    hasEmail: false
+  },
+  {
+    id: '#APL-0094',
+    dateApplied: 'Oct 19, 2025, 04:30 PM',
+    company: {
+      name: 'BlockChain Ventures',
+      department: 'Blockchain',
+      logo: '/companies/blockchain.png'
+    },
+    type: 'FREELANCE',
+    position: 'Blockchain Developer',
+    status: 'Applied',
+    hasContact: false,
+    hasEmail: true
+  },
+  {
+    id: '#APL-0093',
+    dateApplied: 'Oct 18, 2025, 09:45 AM',
+    company: {
+      name: 'CyberSecure Systems',
+      department: 'Security',
+      logo: '/companies/cybersecure.png'
+    },
+    type: 'FULLTIME',
+    position: 'Security Analyst',
+    status: 'Screening',
+    hasContact: true,
+    hasEmail: true
+  },
+  {
+    id: '#APL-0092',
+    dateApplied: 'Oct 18, 2025, 11:00 AM',
+    company: {
+      name: 'MobileFirst Apps',
+      department: 'Mobile Development',
+      logo: '/companies/mobilefirst.png'
+    },
+    type: 'FREELANCE',
+    position: 'Mobile Developer',
+    status: 'Technical',
+    hasContact: true,
+    hasEmail: true
+  },
+  {
+    id: '#APL-0091',
+    dateApplied: 'Oct 18, 2025, 12:15 PM',
+    company: {
+      name: 'E-Commerce Plus',
+      department: 'E-Commerce',
+      logo: '/companies/ecommerce.png'
+    },
+    type: 'PART TIME',
+    position: 'E-Commerce Developer',
+    status: 'Offer',
+    hasContact: true,
+    hasEmail: true
+  },
+  {
+    id: '#APL-0090',
+    dateApplied: 'Oct 17, 2025, 01:30 PM',
+    company: {
+      name: 'GameDev Studios',
+      department: 'Game Development',
+      logo: '/companies/gamedev.png'
+    },
+    type: 'FULLTIME',
+    position: 'Game Developer',
+    status: 'Hired',
+    hasContact: true,
+    hasEmail: true
+  },
+  {
+    id: '#APL-0089',
+    dateApplied: 'Oct 17, 2025, 02:45 PM',
+    company: {
+      name: 'Social Media Hub',
+      department: 'Social Media',
+      logo: '/companies/socialhub.png'
+    },
+    type: 'PART TIME',
+    position: 'Social Media Manager',
+    status: 'Rejected',
+    hasContact: false,
+    hasEmail: true
+  },
+  {
+    id: '#APL-0088',
+    dateApplied: 'Oct 16, 2025, 10:00 AM',
+    company: {
+      name: 'Content Management Pro',
+      department: 'Content',
+      logo: '/companies/contentpro.png'
+    },
+    type: 'FREELANCE',
+    position: 'Content Manager',
+    status: 'Applied',
+    hasContact: true,
+    hasEmail: false
+  },
+  {
+    id: '#APL-0087',
+    dateApplied: 'Oct 16, 2025, 11:15 AM',
+    company: {
+      name: 'Video Streaming Co',
+      department: 'Streaming',
+      logo: '/companies/videostream.png'
+    },
+    type: 'FULLTIME',
+    position: 'Streaming Engineer',
+    status: 'Screening',
+    hasContact: true,
+    hasEmail: true
+  },
+  {
+    id: '#APL-0086',
+    dateApplied: 'Oct 15, 2025, 12:30 PM',
+    company: {
+      name: 'IoT Innovations',
+      department: 'IoT',
+      logo: '/companies/iot.png'
+    },
+    type: 'FREELANCE',
+    position: 'IoT Developer',
+    status: 'Technical',
+    hasContact: true,
+    hasEmail: true
+  },
+  {
+    id: '#APL-0085',
+    dateApplied: 'Oct 15, 2025, 01:45 PM',
+    company: {
+      name: 'Robotics Labs',
+      department: 'Robotics',
+      logo: '/companies/robotics.png'
+    },
+    type: 'FULLTIME',
+    position: 'Robotics Engineer',
+    status: 'Offer',
+    hasContact: true,
+    hasEmail: true
+  },
+  {
+    id: '#APL-0084',
+    dateApplied: 'Oct 14, 2025, 03:00 PM',
+    company: {
+      name: 'AR VR Solutions',
+      department: 'AR/VR',
+      logo: '/companies/arvr.png'
+    },
+    type: 'PART TIME',
+    position: 'AR/VR Developer',
+    status: 'Hired',
+    hasContact: true,
+    hasEmail: true
+  },
+  {
+    id: '#APL-0083',
+    dateApplied: 'Oct 14, 2025, 04:15 PM',
+    company: {
+      name: 'Education Tech',
+      department: 'EdTech',
+      logo: '/companies/edtech.png'
+    },
+    type: 'FREELANCE',
+    position: 'EdTech Developer',
+    status: 'Rejected',
+    hasContact: true,
+    hasEmail: true
+  },
+  {
+    id: '#APL-0082',
+    dateApplied: 'Oct 13, 2025, 09:30 AM',
+    company: {
+      name: 'TravelTech Solutions',
+      department: 'Travel',
+      logo: '/companies/traveltech.png'
+    },
+    type: 'FULLTIME',
+    position: 'Travel App Developer',
+    status: 'Applied',
+    hasContact: false,
+    hasEmail: true
+  },
+  {
+    id: '#APL-0081',
+    dateApplied: 'Oct 13, 2025, 10:45 AM',
+    company: {
+      name: 'Real Estate Pro',
+      department: 'Real Estate',
+      logo: '/companies/realestate.png'
+    },
+    type: 'PART TIME',
+    position: 'Real Estate Tech Developer',
+    status: 'Screening',
+    hasContact: true,
+    hasEmail: false
+  },
+  {
+    id: '#APL-0080',
+    dateApplied: 'Oct 12, 2025, 12:00 PM',
+    company: {
+      name: 'FoodTech Delivery',
+      department: 'Food Delivery',
+      logo: '/companies/foodtech.png'
+    },
+    type: 'FREELANCE',
+    position: 'Food Delivery App Developer',
+    status: 'Technical',
+    hasContact: true,
+    hasEmail: true
+  },
+  {
+    id: '#APL-0079',
+    dateApplied: 'Oct 12, 2025, 01:15 PM',
+    company: {
+      name: 'Fitness Tech',
+      department: 'Fitness',
+      logo: '/companies/fitnesstech.png'
+    },
+    type: 'FULLTIME',
+    position: 'Fitness App Developer',
+    status: 'Offer',
+    hasContact: true,
+    hasEmail: true
+  },
+  {
+    id: '#APL-0078',
+    dateApplied: 'Oct 11, 2025, 02:30 PM',
+    company: {
+      name: 'Music Streaming Co',
+      department: 'Music',
+      logo: '/companies/musicstream.png'
+    },
+    type: 'PART TIME',
+    position: 'Music Platform Developer',
+    status: 'Hired',
+    hasContact: true,
+    hasEmail: true
+  },
+  {
+    id: '#APL-0077',
+    dateApplied: 'Oct 11, 2025, 03:45 PM',
+    company: {
+      name: 'Photo Editing Pro',
+      department: 'Creative',
+      logo: '/companies/photoediting.png'
+    },
+    type: 'FREELANCE',
+    position: 'Image Processing Engineer',
+    status: 'Rejected',
+    hasContact: false,
+    hasEmail: true
+  },
+  {
+    id: '#APL-0076',
+    dateApplied: 'Oct 10, 2025, 09:00 AM',
+    company: {
+      name: 'Language Learning App',
+      department: 'Education',
+      logo: '/companies/language.png'
+    },
+    type: 'FULLTIME',
+    position: 'Language App Developer',
+    status: 'Applied',
+    hasContact: true,
+    hasEmail: true
+  },
+  {
+    id: '#APL-0075',
+    dateApplied: 'Oct 10, 2025, 10:15 AM',
+    company: {
+      name: 'Weather Analytics',
+      department: 'Meteorology',
+      logo: '/companies/weather.png'
+    },
+    type: 'PART TIME',
+    position: 'Weather App Developer',
+    status: 'Screening',
+    hasContact: true,
+    hasEmail: true
+  },
+  {
+    id: '#APL-0074',
+    dateApplied: 'Oct 9, 2025, 11:30 AM',
+    company: {
+      name: 'News Aggregator',
+      department: 'Media',
+      logo: '/companies/news.png'
+    },
+    type: 'FREELANCE',
+    position: 'News Platform Developer',
+    status: 'Technical',
+    hasContact: true,
+    hasEmail: false
+  },
+  {
+    id: '#APL-0073',
+    dateApplied: 'Oct 9, 2025, 12:45 PM',
+    company: {
+      name: 'Shopping Cart Pro',
+      department: 'E-Commerce',
+      logo: '/companies/shopping.png'
+    },
+    type: 'FULLTIME',
+    position: 'E-Commerce Developer',
+    status: 'Offer',
+    hasContact: true,
+    hasEmail: true
+  },
+  {
+    id: '#APL-0072',
+    dateApplied: 'Oct 8, 2025, 02:00 PM',
+    company: {
+      name: 'Video Conferencing Co',
+      department: 'Communication',
+      logo: '/companies/videoconf.png'
+    },
+    type: 'PART TIME',
+    position: 'Video Conferencing Developer',
+    status: 'Hired',
+    hasContact: true,
+    hasEmail: true
+  },
+  {
+    id: '#APL-0071',
+    dateApplied: 'Oct 8, 2025, 03:15 PM',
+    company: {
+      name: 'Project Management Plus',
+      department: 'Project Management',
+      logo: '/companies/pmplus.png'
+    },
+    type: 'FREELANCE',
+    position: 'PM Tool Developer',
+    status: 'Rejected',
+    hasContact: true,
+    hasEmail: true
+  },
+  {
+    id: '#APL-0070',
+    dateApplied: 'Oct 7, 2025, 09:30 AM',
+    company: {
+      name: 'Task Manager Pro',
+      department: 'Productivity',
+      logo: '/companies/taskmanager.png'
+    },
+    type: 'FULLTIME',
+    position: 'Productivity App Developer',
+    status: 'Applied',
+    hasContact: false,
+    hasEmail: true
+  },
+  {
+    id: '#APL-0069',
+    dateApplied: 'Oct 6, 2025, 10:45 AM',
+    company: {
+      name: 'Note Taking App',
+      department: 'Productivity',
+      logo: '/companies/notes.png'
+    },
+    type: 'PART TIME',
+    position: 'Note App Developer',
+    status: 'Screening',
+    hasContact: true,
+    hasEmail: true
+  },
+  {
+    id: '#APL-0068',
+    dateApplied: 'Oct 6, 2025, 12:00 PM',
+    company: {
+      name: 'Calendar Sync Co',
+      department: 'Productivity',
+      logo: '/companies/calendar.png'
+    },
+    type: 'FREELANCE',
+    position: 'Calendar App Developer',
+    status: 'Technical',
+    hasContact: true,
+    hasEmail: true
+  },
+  {
+    id: '#APL-0067',
+    dateApplied: 'Oct 5, 2025, 01:15 PM',
+    company: {
+      name: 'Email Client Pro',
+      department: 'Communication',
+      logo: '/companies/email.png'
+    },
+    type: 'FULLTIME',
+    position: 'Email Client Developer',
+    status: 'Offer',
+    hasContact: true,
+    hasEmail: true
+  },
+  {
+    id: '#APL-0066',
+    dateApplied: 'Oct 4, 2025, 02:30 PM',
+    company: {
+      name: 'Messaging Platform',
+      department: 'Communication',
+      logo: '/companies/messaging.png'
+    },
+    type: 'PART TIME',
+    position: 'Messaging App Developer',
+    status: 'Hired',
+    hasContact: true,
+    hasEmail: false
+  },
+  {
+    id: '#APL-0065',
+    dateApplied: 'Oct 4, 2025, 03:45 PM',
+    company: {
+      name: 'Voice Assistant Tech',
+      department: 'AI',
+      logo: '/companies/voice.png'
+    },
+    type: 'FREELANCE',
+    position: 'Voice Assistant Developer',
+    status: 'Rejected',
+    hasContact: true,
+    hasEmail: true
+  },
+  {
+    id: '#APL-0064',
+    dateApplied: 'Oct 3, 2025, 09:00 AM',
+    company: {
+      name: 'Translation Services',
+      department: 'Language',
+      logo: '/companies/translation.png'
+    },
+    type: 'FULLTIME',
+    position: 'Translation App Developer',
+    status: 'Applied',
+    hasContact: true,
+    hasEmail: true
+  },
+  {
+    id: '#APL-0063',
+    dateApplied: 'Oct 3, 2025, 10:15 AM',
+    company: {
+      name: 'Code Review Platform',
+      department: 'Development Tools',
+      logo: '/companies/codereview.png'
+    },
+    type: 'PART TIME',
+    position: 'DevOps Engineer',
+    status: 'Screening',
+    hasContact: false,
+    hasEmail: true
+  },
+  {
+    id: '#APL-0062',
+    dateApplied: 'Oct 2, 2025, 11:30 AM',
+    company: {
+      name: 'CI/CD Automation',
+      department: 'DevOps',
+      logo: '/companies/cicd.png'
+    },
+    type: 'FREELANCE',
+    position: 'CI/CD Engineer',
+    status: 'Technical',
+    hasContact: true,
+    hasEmail: true
+  },
+  {
+    id: '#APL-0061',
+    dateApplied: 'Oct 2, 2025, 12:45 PM',
+    company: {
+      name: 'Infrastructure as Code',
+      department: 'DevOps',
+      logo: '/companies/iac.png'
+    },
+    type: 'FULLTIME',
+    position: 'Infrastructure Engineer',
+    status: 'Offer',
+    hasContact: true,
+    hasEmail: true
+  },
+  {
+    id: '#APL-0060',
+    dateApplied: 'Oct 1, 2025, 02:00 PM',
+    company: {
+      name: 'Container Orchestration',
+      department: 'DevOps',
+      logo: '/companies/containers.png'
+    },
+    type: 'PART TIME',
+    position: 'Kubernetes Engineer',
+    status: 'Hired',
+    hasContact: true,
+    hasEmail: true
+  },
+  {
+    id: '#APL-0059',
+    dateApplied: 'Sep 30, 2025, 03:15 PM',
+    company: {
+      name: 'Monitoring Solutions',
+      department: 'DevOps',
+      logo: '/companies/monitoring.png'
+    },
+    type: 'FREELANCE',
+    position: 'Site Reliability Engineer',
+    status: 'Rejected',
+    hasContact: true,
+    hasEmail: true
+  },
+  {
+    id: '#APL-0058',
+    dateApplied: 'Sep 29, 2025, 09:30 AM',
+    company: {
+      name: 'Database Optimization',
+      department: 'Database',
+      logo: '/companies/database.png'
+    },
+    type: 'FULLTIME',
+    position: 'Database Administrator',
+    status: 'Applied',
+    hasContact: true,
+    hasEmail: true
+  },
+  {
+    id: '#APL-0057',
+    dateApplied: 'Sep 29, 2025, 10:45 AM',
+    company: {
+      name: 'NoSQL Solutions',
+      department: 'Database',
+      logo: '/companies/nosql.png'
+    },
+    type: 'PART TIME',
+    position: 'NoSQL Developer',
+    status: 'Screening',
+    hasContact: true,
+    hasEmail: true
+  },
+  {
+    id: '#APL-0056',
+    dateApplied: 'Sep 28, 2025, 12:00 PM',
+    company: {
+      name: 'Graph Database Co',
+      department: 'Database',
+      logo: '/companies/graphdb.png'
+    },
+    type: 'FREELANCE',
+    position: 'Graph Database Engineer',
+    status: 'Technical',
+    hasContact: false,
+    hasEmail: true
+  },
+  {
+    id: '#APL-0055',
+    dateApplied: 'Sep 28, 2025, 01:15 PM',
+    company: {
+      name: 'Time Series DB',
+      department: 'Database',
+      logo: '/companies/timeseries.png'
+    },
+    type: 'FULLTIME',
+    position: 'Time Series DB Engineer',
+    status: 'Offer',
+    hasContact: true,
+    hasEmail: true
+  },
+  {
+    id: '#APL-0054',
+    dateApplied: 'Sep 27, 2025, 02:30 PM',
+    company: {
+      name: 'Search Engine Tech',
+      department: 'Search',
+      logo: '/companies/search.png'
+    },
+    type: 'PART TIME',
+    position: 'Search Engine Developer',
+    status: 'Hired',
+    hasContact: true,
+    hasEmail: true
+  },
+  {
+    id: '#APL-0053',
+    dateApplied: 'Sep 27, 2025, 03:45 PM',
+    company: {
+      name: 'Analytics Dashboard',
+      department: 'Analytics',
+      logo: '/companies/analytics.png'
+    },
+    type: 'FREELANCE',
+    position: 'Analytics Developer',
+    status: 'Rejected',
+    hasContact: true,
+    hasEmail: true
+  },
+  {
+    id: '#APL-0052',
+    dateApplied: 'Sep 26, 2025, 09:00 AM',
+    company: {
+      name: 'Business Intelligence',
+      department: 'BI',
+      logo: '/companies/bi.png'
+    },
+    type: 'FULLTIME',
+    position: 'BI Developer',
+    status: 'Applied',
+    hasContact: true,
+    hasEmail: false
   }
 ];
