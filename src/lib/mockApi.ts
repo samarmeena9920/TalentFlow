@@ -213,6 +213,13 @@ export const handlers = [
   }),
 
   // Assessments endpoints
+  http.get(`${API_BASE}/assessments`, async () => {
+    await simulateLatency();
+    
+    const assessments = await db.assessments.toArray();
+    return HttpResponse.json(assessments);
+  }),
+
   http.get(`${API_BASE}/assessments/:jobId`, async ({ params }) => {
     await simulateLatency();
     

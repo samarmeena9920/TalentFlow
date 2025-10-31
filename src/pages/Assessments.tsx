@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card } from '@/components/ui/card';
-import { Plus, Trash2 } from 'lucide-react';
+import { Plus, Trash2, FileText } from 'lucide-react';
 import { Assessment, AssessmentSection, Question, QuestionType } from '@/lib/db';
 import {
   Select,
@@ -15,6 +15,13 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/hooks/use-toast';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from '@/components/ui/dialog';
 
 const questionTypes: { value: QuestionType; label: string }[] = [
   { value: 'single-choice', label: 'Single Choice' },
@@ -30,6 +37,8 @@ export default function Assessments() {
   const [assessment, setAssessment] = useState<Assessment | null>(null);
   const [previewMode, setPreviewMode] = useState(false);
   const [previewAnswers, setPreviewAnswers] = useState<Record<string, any>>({});
+  const [savedAssessments, setSavedAssessments] = useState<Assessment[]>([]);
+  const [savedAssessmentsOpen, setSavedAssessmentsOpen] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -78,6 +87,9 @@ export default function Assessments() {
         title: 'Success',
         description: 'Assessment saved',
       });
+      
+      // Reload saved assessments
+      loadSavedAssessments();
     } catch (error) {
       toast({
         title: 'Error',
@@ -85,6 +97,31 @@ export default function Assessments() {
         variant: 'destructive',
       });
     }
+  };
+
+  const loadSavedAssessments = async () => {
+    try {
+      const response = await fetch('/api/assessments');
+      const data = await response.json();
+      setSavedAssessments(data);
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: 'Failed to load saved assessments',
+        variant: 'destructive',
+      });
+    }
+  };
+
+  const handleOpenSavedAssessments = () => {
+    loadSavedAssessments();
+    setSavedAssessmentsOpen(true);
+  };
+
+  const handleLoadAssessment = (assessment: Assessment) => {
+    setSelectedJobId(assessment.jobId);
+    setAssessment(assessment);
+    setSavedAssessmentsOpen(false);
   };
 
   const addSection = () => {
@@ -209,6 +246,13 @@ export default function Assessments() {
             <p className="text-muted-foreground mt-1">Build job-specific assessments</p>
           </div>
           <div className="flex gap-2">
+            <Button
+              variant="outline"
+              onClick={handleOpenSavedAssessments}
+            >
+              <FileText className="h-4 w-4 mr-2" />
+              Saved Assessments
+            </Button>
             <Button
               variant={previewMode ? 'outline' : 'default'}
               onClick={() => {
@@ -471,6 +515,54 @@ export default function Assessments() {
           ))}
         </div>
       </div>
+
+      {/* Saved Assessments Dialog */}
+      <Dialog open={savedAssessmentsOpen} onOpenChange={setSavedAssessmentsOpen}>
+        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Saved Assessments</DialogTitle>
+            <DialogDescription>
+              Select an assessment to load or create a new one
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 mt-4">
+            {savedAssessments.length === 0 ? (
+              <p className="text-muted-foreground text-center py-8">
+                No saved assessments yet. Create your first assessment to get started!
+              </p>
+            ) : (
+              savedAssessments.map((assessment) => {
+                const totalQuestions = assessment.sections.reduce(
+                  (sum, section) => sum + section.questions.length,
+                  0
+                );
+                return (
+                  <Card
+                    key={assessment.id}
+                    className="p-4 cursor-pointer hover:bg-accent transition-colors"
+                    onClick={() => handleLoadAssessment(assessment)}
+                  >
+                    <div className="flex items-start justify-between">
+                      <div>
+                        <h3 className="font-semibold text-lg">{assessment.title}</h3>
+                        <p className="text-sm text-muted-foreground mt-1">
+                          Job ID: {assessment.jobId}
+                        </p>
+                        <p className="text-sm text-muted-foreground">
+                          {totalQuestions} questions across {assessment.sections.length} section(s)
+                        </p>
+                        <p className="text-xs text-muted-foreground mt-2">
+                          Created: {new Date(assessment.createdAt).toLocaleDateString()}
+                        </p>
+                      </div>
+                    </div>
+                  </Card>
+                );
+              })
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

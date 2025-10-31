@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ArrowRight, Briefcase, Users, Target, TrendingUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import heroImage from '@/assets/hero-bg.jpg';
+import heroImage from '/hero-bg.jpg';
 
 export default function Home() {
   return (
@@ -80,45 +80,53 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="group p-8 rounded-2xl bg-card border border-border hover:border-primary transition-all hover:shadow-2xl hover:shadow-primary/20">
-              <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary group-hover:scale-110 transition-all">
-                <Briefcase className="h-7 w-7 text-primary group-hover:text-primary-foreground" />
+            <Link to="/jobs" className="block">
+              <div className="group p-8 rounded-2xl bg-card border border-border hover:border-primary transition-all hover:shadow-2xl hover:shadow-primary/20 cursor-pointer h-full">
+                <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary group-hover:scale-110 transition-all">
+                  <Briefcase className="h-7 w-7 text-primary group-hover:text-primary-foreground" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3">Job Management</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  Create, edit, and organize job postings with ease. Track applications in real-time.
+                </p>
               </div>
-              <h3 className="text-xl font-semibold mb-3">Job Management</h3>
-              <p className="text-muted-foreground leading-relaxed">
-                Create, edit, and organize job postings with ease. Track applications in real-time.
-              </p>
-            </div>
+            </Link>
 
-            <div className="group p-8 rounded-2xl bg-card border border-border hover:border-primary transition-all hover:shadow-2xl hover:shadow-primary/20">
-              <div className="w-14 h-14 rounded-xl bg-secondary/10 flex items-center justify-center mb-6 group-hover:bg-secondary group-hover:scale-110 transition-all">
-                <Users className="h-7 w-7 text-secondary group-hover:text-secondary-foreground" />
+            <Link to="/candidates" className="block">
+              <div className="group p-8 rounded-2xl bg-card border border-border hover:border-primary transition-all hover:shadow-2xl hover:shadow-primary/20 cursor-pointer h-full">
+                <div className="w-14 h-14 rounded-xl bg-secondary/10 flex items-center justify-center mb-6 group-hover:bg-secondary group-hover:scale-110 transition-all">
+                  <Users className="h-7 w-7 text-secondary group-hover:text-secondary-foreground" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3">Candidate Pipeline</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  Manage 1000+ candidates efficiently with advanced search and filtering tools.
+                </p>
               </div>
-              <h3 className="text-xl font-semibold mb-3">Candidate Pipeline</h3>
-              <p className="text-muted-foreground leading-relaxed">
-                Manage 1000+ candidates efficiently with advanced search and filtering tools.
-              </p>
-            </div>
+            </Link>
 
-            <div className="group p-8 rounded-2xl bg-card border border-border hover:border-primary transition-all hover:shadow-2xl hover:shadow-primary/20">
-              <div className="w-14 h-14 rounded-xl bg-accent/10 flex items-center justify-center mb-6 group-hover:bg-accent group-hover:scale-110 transition-all">
-                <Target className="h-7 w-7 text-accent group-hover:text-accent-foreground" />
+            <Link to="/kanban" className="block">
+              <div className="group p-8 rounded-2xl bg-card border border-border hover:border-primary transition-all hover:shadow-2xl hover:shadow-primary/20 cursor-pointer h-full">
+                <div className="w-14 h-14 rounded-xl bg-accent/10 flex items-center justify-center mb-6 group-hover:bg-accent group-hover:scale-110 transition-all">
+                  <Target className="h-7 w-7 text-accent group-hover:text-accent-foreground" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3">Kanban Board</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  Visualize your recruitment pipeline with drag-and-drop candidate management.
+                </p>
               </div>
-              <h3 className="text-xl font-semibold mb-3">Kanban Board</h3>
-              <p className="text-muted-foreground leading-relaxed">
-                Visualize your recruitment pipeline with drag-and-drop candidate management.
-              </p>
-            </div>
+            </Link>
 
-            <div className="group p-8 rounded-2xl bg-card border border-border hover:border-primary transition-all hover:shadow-2xl hover:shadow-primary/20">
-              <div className="w-14 h-14 rounded-xl bg-success/10 flex items-center justify-center mb-6 group-hover:bg-success group-hover:scale-110 transition-all">
-                <TrendingUp className="h-7 w-7 text-success group-hover:text-success-foreground" />
+            <Link to="/assessments" className="block">
+              <div className="group p-8 rounded-2xl bg-card border border-border hover:border-primary transition-all hover:shadow-2xl hover:shadow-primary/20 cursor-pointer h-full">
+                <div className="w-14 h-14 rounded-xl bg-success/10 flex items-center justify-center mb-6 group-hover:bg-success group-hover:scale-110 transition-all">
+                  <TrendingUp className="h-7 w-7 text-success group-hover:text-success-foreground" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3">Smart Assessments</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  Build custom assessments with conditional logic and automated scoring.
+                </p>
               </div>
-              <h3 className="text-xl font-semibold mb-3">Smart Assessments</h3>
-              <p className="text-muted-foreground leading-relaxed">
-                Build custom assessments with conditional logic and automated scoring.
-              </p>
-            </div>
+            </Link>
           </div>
         </div>
       </section>

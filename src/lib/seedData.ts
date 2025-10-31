@@ -94,7 +94,7 @@ export async function seedDatabase() {
 
   await db.candidates.bulkAdd(candidates);
 
-  // Seed Assessments (at least 3)
+  // Seed Assessments (3 complete assessments with 10 questions each)
   const assessments: Assessment[] = [
     {
       id: 'assessment-1',
@@ -126,6 +126,20 @@ export async function seedDatabase() {
               required: true,
               maxLength: 200,
             },
+            {
+              id: 'q4',
+              type: 'multi-choice',
+              text: 'Select all the CSS frameworks you have experience with:',
+              required: false,
+              options: ['Tailwind CSS', 'Bootstrap', 'Material-UI', 'Chakra UI', 'Styled Components'],
+            },
+            {
+              id: 'q5',
+              type: 'single-choice',
+              text: 'Do you have experience with Next.js?',
+              required: true,
+              options: ['Yes', 'No'],
+            },
           ],
         },
         {
@@ -133,19 +147,39 @@ export async function seedDatabase() {
           title: 'Problem Solving',
           questions: [
             {
-              id: 'q4',
+              id: 'q6',
               type: 'long-text',
               text: 'Describe a complex technical challenge you faced and how you solved it.',
               required: true,
               maxLength: 1000,
             },
             {
-              id: 'q5',
+              id: 'q7',
               type: 'numeric',
               text: 'On a scale of 1-10, how would you rate your TypeScript skills?',
               required: true,
               numericMin: 1,
               numericMax: 10,
+            },
+            {
+              id: 'q8',
+              type: 'short-text',
+              text: 'Describe your approach to debugging production issues.',
+              required: true,
+              maxLength: 300,
+            },
+            {
+              id: 'q9',
+              type: 'multi-choice',
+              text: 'Which testing frameworks have you used?',
+              required: true,
+              options: ['Jest', 'Vitest', 'Cypress', 'Playwright', 'React Testing Library'],
+            },
+            {
+              id: 'q10',
+              type: 'file-upload',
+              text: 'Upload your portfolio or GitHub profile screenshot',
+              required: false,
             },
           ],
         },
@@ -185,6 +219,56 @@ export async function seedDatabase() {
               text: 'Which product management tools are you familiar with?',
               required: true,
               options: ['Jira', 'Asana', 'Linear', 'Trello', 'Monday.com'],
+            },
+            {
+              id: 'q4',
+              type: 'numeric',
+              text: 'Years of experience as a Product Manager',
+              required: true,
+              numericMin: 0,
+              numericMax: 30,
+            },
+            {
+              id: 'q5',
+              type: 'single-choice',
+              text: 'What is your preferred method for gathering user feedback?',
+              required: true,
+              options: ['User interviews', 'Surveys', 'Analytics data', 'Focus groups', 'All of the above'],
+            },
+            {
+              id: 'q6',
+              type: 'multi-choice',
+              text: 'Select the methodologies you have experience with:',
+              required: true,
+              options: ['Scrum', 'Kanban', 'Waterfall', 'Lean', 'Design Thinking'],
+            },
+            {
+              id: 'q7',
+              type: 'short-text',
+              text: 'Describe a successful product launch you managed.',
+              required: true,
+              maxLength: 400,
+            },
+            {
+              id: 'q8',
+              type: 'short-text',
+              text: 'How do you prioritize features in a product roadmap?',
+              required: true,
+              maxLength: 300,
+            },
+            {
+              id: 'q9',
+              type: 'long-text',
+              text: 'Tell us about a time you had to make a difficult product decision. What was your process?',
+              required: true,
+              maxLength: 800,
+            },
+            {
+              id: 'q10',
+              type: 'single-choice',
+              text: 'Rate your experience with data-driven decision making:',
+              required: true,
+              options: ['Beginner', 'Intermediate', 'Advanced', 'Expert'],
             },
           ],
         },
@@ -231,6 +315,41 @@ export async function seedDatabase() {
             },
             {
               id: 'q5',
+              type: 'single-choice',
+              text: 'What is your expertise level with neural networks?',
+              required: true,
+              options: ['Beginner', 'Intermediate', 'Advanced', 'Expert'],
+            },
+            {
+              id: 'q6',
+              type: 'multi-choice',
+              text: 'Which data visualization tools have you used?',
+              required: true,
+              options: ['Tableau', 'Power BI', 'matplotlib', 'Seaborn', 'D3.js', 'Plotly'],
+            },
+            {
+              id: 'q7',
+              type: 'short-text',
+              text: 'How do you handle missing data in a dataset?',
+              required: true,
+              maxLength: 250,
+            },
+            {
+              id: 'q8',
+              type: 'multi-choice',
+              text: 'Select all databases you have worked with:',
+              required: true,
+              options: ['PostgreSQL', 'MySQL', 'MongoDB', 'Redis', 'Elasticsearch', 'Cassandra'],
+            },
+            {
+              id: 'q9',
+              type: 'long-text',
+              text: 'Describe your experience with cloud platforms for ML deployment.',
+              required: false,
+              maxLength: 600,
+            },
+            {
+              id: 'q10',
               type: 'file-upload',
               text: 'Upload your resume (PDF)',
               required: false,
